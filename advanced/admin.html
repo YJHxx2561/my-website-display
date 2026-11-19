@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>网站管理后台（KV）</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    :root { --a:#7bffc9; --b:#00e5ff; }
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+      background:radial-gradient(1200px 600px at 20% -10%,#1b3a6b,#0b1021 60%); color:#eaf2ff; padding:28px 16px 60px; }
+    .wrap { max-width:900px; margin:0 auto; }
+    h1 { margin:0 0 6px; font-size:24px; }
+    .sub { color:#9fb0cc; font-size:13px; margin:0 0 22px; line-height:1.7; }
+    .card { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16); border-radius:16px;
+      padding:20px; margin-bottom:16px; backdrop-filter:blur(12px); }
+    label { display:block; font-size:13px; color:#bcd0ec; margin-bottom:7px; }
+    input[type=password], textarea { width:100%; background:rgba(0,0,0,.25); color:#eaf2ff;
+      border:1px solid rgba(255,255,255,.18); border-radius:10px; padding:11px 13px; font-family:inherit; font-size:14px; outline:none; }
+    input[type=password]:focus, textarea:focus { border-color:var(--a); box-shadow:0 0 0 3px rgba(123,255,201,.15); }
+    textarea { min-height:52vh; resize:vertical; font-family:ui-monospace,Consolas,monospace; font-size:12px; line-height:1.6; tab-size:2; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    button { border:0; border-radius:10px; padding:11px 20px; font-size:14px; font-weight:700; cursor:pointer;
+      background:linear-gradient(120deg,var(--a),var(--b)); color:#06231b; transition:.25s; }
+    button:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,229,255,.25); }
+    button.ghost { background:rgba(255,255,255,.1); color:#eaf2ff; border:1px solid rgba(255,255,255,.18); }
+    .msg { min-height:22px; margin:12px 0 0; font-size:13px; }
+    .ok { color:var(--a); } .err { color:#ff8b8b; }
+    code { background:rgba(0,0,0,.3); padding:2px 6px; border-radius:5px; font-size:12px; }
+    .hint { font-size:12px; color:#8fa3c2; line-height:1.8; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🔧 网站管理后台（KV 版 · 可选）</h1>
+  <p class="sub">此页面仅在启用「进阶 KV 模式」时有用。默认方案请直接编辑 <code>data/sites.js</code>，无需本页。</p>
+
+  <div class="card">
+    <label for="token">管理员令牌（在 Cloudflare Pages → 设置 → 变量和机密 中设置的 ADMIN_TOKEN）</label>
+    <div class="row">
+      <input type="password" id="token" placeholder="输入令牌" style="flex:1;min-width:220px" />
+      <button id="loadBtn" class="ghost">读取当前数据</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <label for="editor">网站数据（JSON，编辑后点击保存）</label>
+    <textarea id="editor" spellcheck="false" placeholder='点击「读取当前数据」载入内容…'></textarea>
+    <div class="row" style="margin-top:14px">
+      <button id="saveBtn">💾 保存到 KV</button>
+      <button id="openBtn" class="ghost">在新标签页查看网站</button>
+    </div>
+    <p class="msg" id="msg"></p>
+    <p class="hint">
+      ① 令牌只保存在你当前浏览器的输入框中，不会写入代码。<br>
+      ② 每次访问 /api/sites 都会调用一次函数，会计入 Cloudflare 免费额度；主页默认走静态文件，不受影响。<br>
+      ③ 保存后如主页未立即更新，刷新一次（API 使用 no-store）。
+    </p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function say(text, ok){ var m=$('msg'); m.textContent=text; m.className='msg '+(ok?'ok':'err'); }
+
+  $('loadBtn').addEventListener('click', function(){
+    fetch('/api/sites',{cache:'no-store'})
+      .then(function(r){ return r.json().then(function(j){ if(!r.ok) throw new Error(j.error||r.status); return j; }); })
+      .then(function(j){ $('editor').value = JSON.stringify(j,null,2); say('已读取，共 '+(j.sites||[]).length+' 个网站。',true); })
+      .catch(function(e){ say('读取失败：'+e.message,false); });
+  });
+
+  $('saveBtn').addEventListener('click', function(){
+    var token = $('token').value.trim();
+    if(!token){ say('请先填写管理员令牌。',false); return; }
+    var payload;
+    try { payload = JSON.parse($('editor').value); }
+    catch(e){ say('JSON 格式有误：'+e.message,false); return; }
+    fetch('/api/sites',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body:JSON.stringify(payload)
+    })
+      .then(function(r){ return r.json().then(function(j){ if(!r.ok) throw new Error(j.error||r.status); return j; }); })
+      .then(function(j){ say('保存成功！已写入 '+(j.sites||0)+' 个网站。',true); })
+      .catch(function(e){ say('保存失败：'+e.message,false); });
+  });
+
+  $('openBtn').addEventListener('click', function(){ window.open('/','_blank','noopener'); });
+})();
+</script>
+</body>
+</html>

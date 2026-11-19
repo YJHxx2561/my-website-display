@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的网站展示</title>
+  <meta name="description" content="我的网站与项目，点开就能看。" />
+  <meta name="keywords" content="网站,项目,作品,开发,工具,yjhup" />
+  <meta name="theme-color" content="#0b1021" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🚀%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- 背景层：默认使用原项目壁纸 assets/wallpaper/ocean-girl.png -->
+  <div class="bg-layer" id="bgLayer" aria-hidden="true">
+    <div class="bg-image" id="bgImage"></div>
+    <div class="bg-tint"></div>
+    <div class="bg-overlay"></div>
+  </div>
+
+  <!-- 加载态 -->
+  <div class="boot" id="boot">
+    <div class="boot-spinner"></div>
+    <p>正在加载网站清单…</p>
+  </div>
+
+  <div class="app" id="app" hidden>
+    <!-- 顶部 hero（跨整行） -->
+    <header class="topbar">
+      <div class="avatar" id="avatar" aria-hidden="true">YJH</div>
+      <h1 class="hero-title" id="heroTitle"></h1>
+      <p class="hero-subtitle" id="heroSubtitle"></p>
+
+      <!-- 搜索框：前置引擎下拉 + 站内实时筛选 + 回车全网搜索 -->
+      <div class="search-wrap glass">
+        <div class="engine-box" id="engineBox">
+          <button type="button" class="engine-trigger" id="engineTrigger" aria-haspopup="listbox" aria-expanded="false">
+            <span id="engineLabel">Google</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="engine-menu glass" id="engineMenu" role="listbox" hidden></div>
+        </div>
+        <span class="search-divider" aria-hidden="true"></span>
+        <input id="searchInput" type="search" placeholder="筛选我的项目，或输入关键词后回车搜索全网…" autocomplete="off" aria-label="搜索项目" />
+        <button class="search-go" id="searchGo" title="用所选搜索引擎搜索" aria-label="搜索">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 21l-4.3-4.3M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"/></svg>
+        </button>
+      </div>
+      <p class="search-hint" id="searchHint"></p>
+
+      <p class="typewriter"><span class="quote-mark">“</span><span id="typeTarget"></span><span class="caret"></span></p>
+    </header>
+
+    <!-- 左侧信息面板 -->
+    <aside class="side-panel side-left glass" id="leftPanel">
+      <div class="panel-label"><span class="dot"></span>Tags</div>
+      <div class="tag-cloud" id="tagCloud"></div>
+      <div class="panel-divider"></div>
+      <div class="panel-label"><span class="dot"></span>关于</div>
+      <p class="about-text" id="aboutText"></p>
+      <div class="social-row" id="socialRow"></div>
+      <button class="panel-collapse" id="collapseLeft" title="收起面板" aria-label="收起面板">‹</button>
+    </aside>
+    <!-- 收起后出现的恢复入口（始终可见，无需刷新） -->
+    <button class="panel-restore" id="restoreLeft" title="展开标签面板" aria-label="展开标签面板" hidden>标签 ›</button>
+
+    <!-- 主体内容 -->
+    <main class="content">
+      <nav class="categories" id="categories" aria-label="网站分类"></nav>
+
+      <div class="result-meta">
+        <span id="resultCount"></span>
+        <button class="reset-btn" id="resetBtn" hidden>清除筛选</button>
+      </div>
+
+      <section class="grid" id="grid" aria-live="polite"></section>
+
+      <div class="empty" id="empty" hidden>
+        <div class="empty-icon">🔍</div>
+        <h3>没有找到匹配的项目</h3>
+        <p>换个关键词试试，或者点上方按钮直接搜索全网。</p>
+        <button class="primary-btn" id="emptyReset">显示全部</button>
+      </div>
+    </main>
+
+    <!-- 右侧时钟面板 -->
+    <aside class="side-panel side-right glass" id="rightPanel">
+      <div class="clock" id="clock">00:00:00</div>
+      <div class="clock-date" id="clockDate"></div>
+      <div class="radar" aria-hidden="true"><span></span><span></span></div>
+      <div class="panel-divider"></div>
+      <div class="stat-row">
+        <div class="stat"><strong id="statSites">0</strong><span>个网站</span></div>
+        <div class="stat"><strong id="statCats">0</strong><span>个分类</span></div>
+      </div>
+    </aside>
+
+    <footer class="footer" id="footer"></footer>
+
+    <!-- 悬浮管理按钮 -->
+    <div class="fab-wrap">
+      <button class="fab" id="fab" title="管理 / 设置" aria-label="管理与设置">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1 1.56V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6h.09A1.7 1.7 0 0 0 10 3.04V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9v.09a1.7 1.7 0 0 0 1.56 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1Z"/></svg>
+      </button>
+      <div class="fab-menu glass" id="fabMenu" hidden>
+        <a id="manageLink" href="#" target="_blank" rel="noopener noreferrer">✏️ 管理网站</a>
+        <a href="README.md" target="_blank" rel="noopener noreferrer">📖 部署说明</a>
+        <a href="advanced/README.md" target="_blank" rel="noopener noreferrer">⚙️ 进阶：KV 管理</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="data/sites.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
