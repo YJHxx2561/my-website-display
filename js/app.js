@@ -158,21 +158,42 @@
       setInterval(tick, 1000);
     }
 
-    /* ---------------- 页脚：备案号 + Powered By YJH ---------------- */
+    /* ---------------- 页脚：备案号 + 版权行 ---------------- */
     function renderFooter() {
       var author = meta.author || 'YJH';
       var authorUrl = meta.authorUrl || 'https://yjhup.com';
       var icp = meta.icp || '';
       var icpUrl = meta.icpUrl || 'https://beian.miit.gov.cn';
       var copyright = meta.copyright || 'Copyright © 2026';
+      var nameLink = '<a class="footer-name" href="' + escapeAttr(authorUrl) +
+        '" target="_blank" rel="noopener noreferrer">' + escapeHtml(author) + '</a>';
       var html = '';
       if (icp) {
         html += '<div><a href="' + escapeAttr(icpUrl) +
           '" target="_blank" rel="noopener noreferrer">' + escapeHtml(icp) + '</a></div>';
       }
-      html += '<div>' + escapeHtml(copyright) + ' <a class="footer-name" href="' + escapeAttr(authorUrl) +
-        '" target="_blank" rel="noopener noreferrer">' + escapeHtml(author) + '</a></div>';
+      html += '<div class="copyright-line">' + escapeHtml(copyright) + ' ' + nameLink +
+        '. All rights reserved. | Powered by ' + nameLink + '</div>';
       $('copyright').innerHTML = html;
+    }
+
+    /* ---------------- 本站运行时间计时 ---------------- */
+    function startUptime() {
+      var elUp = $('site-uptime');
+      if (!elUp) return;
+      var start = new Date(meta.startDate || '2026-11-19T00:00:00+08:00').getTime();
+      if (isNaN(start)) { elUp.textContent = '—'; return; }
+      function pad(n) { return String(n).padStart(2, '0'); }
+      function tick() {
+        var diff = Math.max(0, Date.now() - start);
+        var days = Math.floor(diff / 86400000);
+        var hours = Math.floor(diff / 3600000) % 24;
+        var mins = Math.floor(diff / 60000) % 60;
+        var secs = Math.floor(diff / 1000) % 60;
+        elUp.textContent = days + '天' + pad(hours) + '时' + pad(mins) + '分' + pad(secs) + '秒';
+      }
+      tick();
+      setInterval(tick, 1000);
     }
 
     /* ---------------- 搜索框：引擎下拉 + 双模式 ---------------- */
@@ -405,6 +426,7 @@
     startTypewriter();
     startClock();
     renderFooter();
+    startUptime();
     renderCategories();
     renderFab();
     bindKeys();

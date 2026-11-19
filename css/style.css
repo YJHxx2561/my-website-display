@@ -235,12 +235,19 @@ body {
 .empty p { margin: 0 0 18px; font-size: 13px; color: var(--text-dim); }
 .primary-btn { padding: 8px 18px; border-color: var(--accent); color: var(--accent); }
 .footer { grid-area: foot; margin-top: 30px; text-align: center; font-size: 12px; color: var(--text-soft); line-height: 1.9; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
-/* 访问统计（与 sunpanel 同款，配色适配本站） */
+/* 页脚第一行：本站运行时间（独占一行，强调色数字） */
+.uptime-line { display: flex; justify-content: center; margin-bottom: 6px; font-size: 12px; color: var(--text-dim); }
+.uptime-num { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: .02em; margin-left: 2px; }
+/* 页脚第二行：访问统计（与 sunpanel 同款，配色适配本站） */
 .visit-stats { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 20px; margin-bottom: 6px; font-size: 12px; color: var(--text-dim); }
 .stat-item { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
 .stat-item svg { width: 15px; height: 15px; fill: none; stroke: #fbbf24; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; opacity: .9; }
 .stat-num { color: #fbbf24; font-weight: 700; font-variant-numeric: tabular-nums; margin-left: 3px; }
+/* 运行时间的时钟图标用强调色，和访问统计的金色区分 */
+.uptime-item svg { stroke: var(--accent); }
 .copyright { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; }
+.copyright > div { max-width: 100%; }
+.copyright-line { line-height: 1.9; }
 .copyright a { color: var(--text-soft); text-decoration: none; transition: color .2s; }
 .copyright a:hover { color: var(--accent); }
 .footer-name { color: var(--accent); font-weight: 700; text-decoration: none; border-bottom: 1px dashed rgba(139,233,200,.6); }
@@ -278,6 +285,19 @@ body {
   .cat-btn { padding: 7px 12px; font-size: 12px; }
   .fab-wrap { right: 16px; bottom: 16px; }
   .panel-collapse { display: none; }
+  /* 窄屏页脚：统计项间距收紧、版权行允许折行 */
+  .visit-stats { gap: 5px 12px; font-size: 11px; }
+  .stat-item svg { width: 13px; height: 13px; }
+  .footer { font-size: 11px; line-height: 1.8; }
+  .copyright { width: 100%; }
+  .copyright-line { text-wrap: balance; overflow-wrap: anywhere; }
+  /* 右下角设置按钮所在区域留白，避免遮住版权行末尾 */
+  .footer { padding-right: 52px; }
+}
+
+@media (max-width: 420px) {
+  .visit-stats { gap: 5px 10px; }
+  .footer { font-size: 10.5px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

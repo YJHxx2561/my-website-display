@@ -35,7 +35,9 @@
 
 - 风格参考 [leleo.top](https://www.leleo.top/)：全屏壁纸背景（默认原项目壁纸 `assets/wallpaper/ocean-girl.png`）+ 半透明毛玻璃面板，自然克制
 - 圆形头像 + 衬线斜体问候语「Hi, I'm YJH」+ 引号内打字机
-- 页脚：访问统计（本页访问人次 / 访问人数，与 sunpanel 项目共用 `stats.web.yjhup.com` 后端）+ 两行版权：`萌ICP备20266614号`（点击到萌 ICP 查询）与 `Copyright © 2026 | Powered By YJH`（点击 YJH 到 `https://yjhup.com`），均新标签页打开
+- 页脚第一行：**本站运行时间**，独占一行，从 `meta.startDate` 起实时计时，显示「本站已运行 x天X时X分X秒」（绿色数字）
+- 页脚第二行：访问统计（本页访问人次 / 访问人数，与 sunpanel 项目共用 `stats.web.yjhup.com` 后端）
+- 页脚第三、四行：`萌ICP备20266614号`（点击到萌 ICP 查询）与 `Copyright © 2026 YJH. All rights reserved. | Powered by YJH`（两处 YJH 都可点击到 `https://yjhup.com`），均新标签页打开；窄屏下自动折行并避开右下角设置按钮
 - 左侧：标签云、简介、社交按钮（收起后出现「标签 ›」按钮可随时恢复，无需刷新）；右侧：时钟、雷达环与统计
 - 中部：分类标签 + 响应式卡片网格，卡片带头图封面与悬停动效
 - **搜索框双模式**：前置自定义玻璃质感下拉选搜索引擎（默认 **Google**，另可选百度 / Bing / 搜狗 / 360，样式与搜索栏一致，不再是突兀的浏览器原生弹窗）；输入时实时筛选本站项目，**回车或点右侧按钮**用所选引擎搜索全网（新标签页）
@@ -146,7 +148,7 @@ Cloudflare 免费版各项额度：
 
 都在同一个文件里：
 
-- `meta`：站点标题、`author` / `authorUrl`（页脚 Powered By 的名字与跳转）、`icp` / `icpUrl`（备案号文字与点击跳转）、`copyright`（版权行文字）、管理链接
+- `meta`：`author` / `authorUrl`（页脚两处 YJH 的名字与跳转）、`icp` / `icpUrl`（备案号文字与跳转）、`copyright`（版权行前缀）、`startDate`（本站开始运行时间，用于页脚运行计时，如 `2026-11-19T00:00:00+08:00`）、管理链接
 - `theme`：头像、大标题、打字机句子、标签云、强调色、背景图、模糊度
 - `searchEngines`：搜索框下拉里的搜索引擎（`name` 显示名、`url` 搜索地址，用 `{q}` 代表关键词）；增删引擎直接改这个数组，第一个是默认引擎
 - `social`：社交按钮列表
