@@ -23,10 +23,11 @@ window.SITE_DATA = {
     "description": "我的一些网站与项目。",
     "keywords": "项目,作品,开发,工具,网站,yjhup,yjh",
     "favicon": "assets/avatar.png",           // 浏览器标签页图标，可用 emoji 或图片地址
-    "author": "YJH",           // 页面底部显示的名字
-    "authorUrl": "https://yjhup.com",  // ★ 点击底部名字跳转的地址
-    "icp": "",                 // 备案号，留空则不显示，例如 "粤ICP备12345678号"
-    "copyright": "Copyright © 2026",
+    "author": "YJH",           // 页脚 Powered By 后面的名字
+    "authorUrl": "https://yjhup.com",  // ★ 点击页脚 YJH 跳转的地址
+    "icp": "萌ICP备20266614号",  // 备案号，留空则不显示
+    "icpUrl": "https://icp.gov.moe/?keyword=20266614",  // ★ 点击备案号跳转的地址
+    "copyright": "Copyright © 2026 | Powered By",
     // 管理员点右下角齿轮 →「管理网站」时打开的链接。
     "adminUrl": "https://github.com/YJHxx2561/my-website-display/edit/main/data/sites.js"
   },

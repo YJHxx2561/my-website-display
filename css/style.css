@@ -61,7 +61,7 @@ body {
 
 /* ---------- 主布局 ---------- */
 .app {
-  max-width: 1320px; margin: 0 auto; padding: 26px 26px 90px;
+  max-width: 1320px; margin: 0 auto; padding: 26px 26px 24px;
   display: grid;
   grid-template-columns: 210px minmax(0, 1fr) 196px;
   grid-template-areas: "top top top" "left main right" "foot foot foot";
@@ -235,6 +235,14 @@ body {
 .empty p { margin: 0 0 18px; font-size: 13px; color: var(--text-dim); }
 .primary-btn { padding: 8px 18px; border-color: var(--accent); color: var(--accent); }
 .footer { grid-area: foot; margin-top: 30px; text-align: center; font-size: 12px; color: var(--text-soft); line-height: 1.9; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+/* 访问统计（与 sunpanel 同款，配色适配本站） */
+.visit-stats { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 20px; margin-bottom: 6px; font-size: 12px; color: var(--text-dim); }
+.stat-item { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.stat-item svg { width: 15px; height: 15px; fill: none; stroke: #fbbf24; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; opacity: .9; }
+.stat-num { color: #fbbf24; font-weight: 700; font-variant-numeric: tabular-nums; margin-left: 3px; }
+.copyright { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; }
+.copyright a { color: var(--text-soft); text-decoration: none; transition: color .2s; }
+.copyright a:hover { color: var(--accent); }
 .footer-name { color: var(--accent); font-weight: 700; text-decoration: none; border-bottom: 1px dashed rgba(139,233,200,.6); }
 .footer-name:hover { color: #fff; border-bottom-color: #fff; }
 
@@ -259,7 +267,7 @@ body {
   .app {
     grid-template-columns: 1fr;
     grid-template-areas: "top" "right" "main" "left" "foot";
-    padding: 16px 14px 90px; gap: 18px;
+    padding: 16px 14px 16px; gap: 18px;
   }
   .side-panel, .panel-restore { position: static; }
   .avatar { width: 72px; height: 72px; font-size: 20px; }

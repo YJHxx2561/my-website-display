@@ -158,16 +158,21 @@
       setInterval(tick, 1000);
     }
 
-    /* ---------------- 页脚（★ YJH 可点击跳转） ---------------- */
+    /* ---------------- 页脚：备案号 + Powered By YJH ---------------- */
     function renderFooter() {
       var author = meta.author || 'YJH';
       var authorUrl = meta.authorUrl || 'https://yjhup.com';
-      var nameHtml = '<a class="footer-name" href="' + escapeAttr(authorUrl) +
-        '" target="_blank" rel="noopener noreferrer">' + escapeHtml(author) + '</a>';
-      var parts = [];
-      if (meta.icp) parts.push('<a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer" style="color:inherit">' + escapeHtml(meta.icp) + '</a>');
-      parts.push((meta.copyright ? escapeHtml(meta.copyright) + ' ' : '') + nameHtml);
-      $('footer').innerHTML = parts.join(' &nbsp;·&nbsp; ');
+      var icp = meta.icp || '';
+      var icpUrl = meta.icpUrl || 'https://beian.miit.gov.cn';
+      var copyright = meta.copyright || 'Copyright © 2026';
+      var html = '';
+      if (icp) {
+        html += '<div><a href="' + escapeAttr(icpUrl) +
+          '" target="_blank" rel="noopener noreferrer">' + escapeHtml(icp) + '</a></div>';
+      }
+      html += '<div>' + escapeHtml(copyright) + ' <a class="footer-name" href="' + escapeAttr(authorUrl) +
+        '" target="_blank" rel="noopener noreferrer">' + escapeHtml(author) + '</a></div>';
+      $('copyright').innerHTML = html;
     }
 
     /* ---------------- 搜索框：引擎下拉 + 双模式 ---------------- */
