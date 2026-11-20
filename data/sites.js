@@ -176,6 +176,17 @@ window.SITE_DATA = {
       "badge": ""
     },
     {
+      "id": "linreg",
+      "name": "一元线性回归计算器",
+      "desc": "最小二乘拟合、完整统计检验与图表导出，输入数据即出回归方程。",
+      "url": "https://linreg.web.yjhup.com",
+      "icon": "📐",
+      "image": "assets/screenshots/linreg.png",
+      "category": "tool",
+      "tags": ["回归", "计算", "统计"],
+      "badge": ""
+    },
+    {
       "id": "zashboard",
       "name": "Zashboard",
       "desc": "代理控制面板，节点状态和流量一眼看清。",

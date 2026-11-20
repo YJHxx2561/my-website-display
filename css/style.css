@@ -291,8 +291,6 @@ body {
   .footer { font-size: 11px; line-height: 1.8; }
   .copyright { width: 100%; }
   .copyright-line { text-wrap: balance; overflow-wrap: anywhere; }
-  /* 右下角设置按钮所在区域留白，避免遮住版权行末尾 */
-  .footer { padding-right: 52px; }
 }
 
 @media (max-width: 420px) {
