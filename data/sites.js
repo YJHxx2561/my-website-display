@@ -132,6 +132,28 @@ window.SITE_DATA = {
       "badge": ""
     },
     {
+      "id": "aichat",
+      "name": "AI 聊天",
+      "desc": "在线 AI 聊天，填入 API Key 即可对话；基于开源 chat-demo，支持多会话与流式回复。",
+      "url": "https://aichat.web.yjhup.com/",
+      "icon": "💬",
+      "image": "assets/screenshots/aichat.png",
+      "category": "tool",
+      "tags": ["AI", "聊天", "API"],
+      "badge": ""
+    },
+    {
+      "id": "qflashlink",
+      "name": "QQ 闪传直链转换器",
+      "desc": "粘贴 QQ 闪传分享链接，一键提取文件直链，复制到下载器或浏览器即可下载。",
+      "url": "https://qflashlink.web.yjhup.com/",
+      "icon": "⚡",
+      "image": "assets/screenshots/qflashlink.png",
+      "category": "tool",
+      "tags": ["QQ", "闪传", "直链"],
+      "badge": ""
+    },
+    {
       "id": "oneip",
       "name": "One IP",
       "desc": "小工具，一页看清公网 IP 和网络信息。",
