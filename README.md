@@ -33,7 +33,8 @@
 
 这是一个**个人项目展示页**：集中展示站主的网站、工具和作品（不是网址收藏夹）。
 
-- 风格参考 [leleo.top](https://www.leleo.top/)：全屏壁纸背景（默认原项目壁纸 `assets/wallpaper/ocean-girl.png`）+ 半透明毛玻璃面板，自然克制
+- 风格参考 [leleo.top](https://www.leleo.top/)：全屏壁纸背景 + 半透明毛玻璃面板，自然克制
+- **随机背景（与 desktop-web 同款）**：默认从 API 拉取随机壁纸，右上角玻璃控件可切换三种图源（樱花 DMOE / 自建图库 / 两者随机）或点刷新换一张，选择会被记住；自建图库按屏幕横竖自动选 landscape/portrait。可在 `theme.backgroundMode` 改回 `local` 用固定本地壁纸
 - 圆形头像 + 衬线斜体问候语「Hi, I'm YJH」+ 引号内打字机
 - 页脚第一行：**本站运行时间**，独占一行，从 `meta.startDate` 起实时计时，显示「本站已运行 x天X时X分X秒」（绿色数字）
 - 页脚第二行：访问统计（本页访问人次 / 访问人数，与 sunpanel 项目共用 `stats.web.yjhup.com` 后端）
@@ -155,9 +156,11 @@ Cloudflare 免费版各项额度：
 - `categories`：分类名称与图标
 - `sites` 的**顺序**即页面上的显示顺序，已按重要 / 常用程度排好，挪动整段 `{...}` 即可调整
 
-背景默认是原项目壁纸 `assets/wallpaper/ocean-girl.png`（本地资源，离线也可见）。想换成别的：
+背景默认是 **API 随机图**（`theme.backgroundMode: "api"`），三种图源在 `theme.wallpaperSources` 配置（樱花 DMOE / 自建图库 / 两者随机），后端地址与 desktop-web 项目一致。访客可在右上角切换、刷新换图，选择存 localStorage。
+
+想用固定壁纸：把 `theme.backgroundMode` 改为 `"local"`，然后：
 - 填网络图片直链到 `theme.background`；或
-- 把图片放进 `assets/wallpaper/` 目录，填 `"assets/wallpaper/你的图.jpg"`。
+- 把图片放进 `assets/wallpaper/` 目录，填 `"assets/wallpaper/你的图.jpg"`（内置默认 `ocean-girl.png`）。
 
 ### 字段速查表
 

@@ -5,7 +5,7 @@
 - `avatar.png` —— 头像，由 `https://raw.web.yjhup.com/images/avatar/avatar-1.png` 下载而来，
   由 `data/sites.js` 的 `theme.avatarImage` 引用。
 - `screenshots/` —— 各项目的网站截图（真实访问各站点截取），由每个项目的 `image` 字段引用，
-  在卡片封面铺满显示。目前共 15 张，与有截图的网站一一对应（含 `linreg.png`、`aichat.png`、`qflashlink.png`）。
+  在卡片封面铺满显示。目前共 16 张，与有截图的网站一一对应（含 `linreg.png`、`aichat.png`、`qflashlink.png`、`desktop-web.png`）。
 - `wallpaper/ocean-girl.png` —— 默认背景，取自 leleo-home-page 原项目的「海洋女孩」壁纸。
   页面 CSS 默认引用它，因此即使离线（无网络图片）也能显示完整背景。
 

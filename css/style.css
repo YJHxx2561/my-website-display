@@ -45,6 +45,43 @@ body {
 .bg-tint { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(9,26,66,.34), rgba(6,12,32,.5)); }
 .bg-overlay { position: absolute; inset: 0; background: rgba(6,10,26,.18); }
 
+/* 背景控制（图源选择 + 换一张），悬浮右上角 */
+.bg-controls {
+  position: fixed; top: 18px; right: 18px; z-index: 25;
+  display: flex; align-items: center; gap: 4px; padding: 5px;
+  border-radius: 999px;
+}
+.bg-controls button { border: 0; outline: 0; cursor: pointer; background: transparent; color: var(--text-soft); font-family: inherit; }
+.wp-source-wrap { position: relative; }
+.wp-source-btn {
+  display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px;
+  border-radius: 999px; font-size: 12px; transition: background .2s;
+}
+.wp-source-btn:hover { background: rgba(255,255,255,.14); }
+.wp-source-btn > svg:first-child { width: 15px; height: 15px; fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.wp-source-btn .caret-svg { width: 12px; height: 12px; fill: none; stroke: var(--text-dim); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .25s; }
+.wp-source-btn[aria-expanded="true"] .caret-svg { transform: rotate(180deg); }
+.wp-source-menu {
+  position: absolute; top: calc(100% + 8px); right: 0; min-width: 178px; padding: 6px;
+  border-radius: 12px; background: rgba(20,30,48,.9); border: 1px solid rgba(255,255,255,.22);
+  box-shadow: 0 14px 36px rgba(0,0,0,.4);
+  -webkit-backdrop-filter: blur(18px) saturate(150%); backdrop-filter: blur(18px) saturate(150%);
+  animation: menuIn .18s var(--ease) both;
+}
+.wp-source-option {
+  display: block; width: 100%; text-align: left; padding: 8px 12px; border-radius: 8px;
+  font-size: 12.5px; color: var(--text-soft); transition: background .18s, color .18s;
+}
+.wp-source-option:hover { background: rgba(255,255,255,.12); color: #fff; }
+.wp-source-option.active { color: var(--accent); font-weight: 700; background: rgba(139,233,200,.1); }
+.wp-refresh-btn {
+  width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+  transition: background .2s;
+}
+.wp-refresh-btn:hover { background: rgba(255,255,255,.14); }
+.wp-refresh-btn svg { width: 16px; height: 16px; fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .5s; }
+.wp-refresh-btn.loading svg { animation: spin .8s linear infinite; }
+
 .glass {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);

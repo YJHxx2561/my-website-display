@@ -77,16 +77,104 @@
         av.textContent = theme.avatarText || 'YJH';
       }
 
-      // 背景
+      // 背景亮度 / 遮罩（图片由 initBackground 设置）
       var bgImg = $('bgImage');
-      var url = theme.background || '';
-      if (url && window.innerWidth <= 640 && theme.backgroundMobile) url = theme.backgroundMobile;
-      if (url && bgImg) bgImg.style.backgroundImage = 'url("' + escapeAttr(url) + '")';
       if (bgImg && theme.brightness != null) bgImg.style.filter = 'brightness(' + (theme.brightness / 100) + ') saturate(1.05)';
       if (theme.overlay != null) {
         var ov = document.querySelector('.bg-overlay');
         if (ov) ov.style.background = 'rgba(6,10,26,' + theme.overlay + ')';
       }
+    }
+
+    /* ---------------- 背景：API 随机图 / 本地图 ---------------- */
+    function initBackground() {
+      var bgImg = $('bgImage');
+      var sources = theme.wallpaperSources || {};
+      var mode = theme.backgroundMode || 'api';
+
+      // 本地模式：用 data 里指定的背景图（留空则用 CSS 默认壁纸）
+      if (mode !== 'api' || !Object.keys(sources).length) {
+        var url = theme.background || '';
+        if (url && window.innerWidth <= 640 && theme.backgroundMobile) url = theme.backgroundMobile;
+        if (url && bgImg) bgImg.style.backgroundImage = 'url("' + escapeAttr(url) + '")';
+        return; // 不显示 API 背景控制
+      }
+
+      $('bgControls').hidden = false;
+      var def = sources.default || 'dmoe';
+      var source = 'dmoe';
+      try { source = localStorage.getItem('yjh_wp_source') || def; } catch (err) {}
+      if (source !== 'mixed' && !sources[source]) source = def;
+
+      // 自建图库按屏幕宽高比自动选横屏/竖屏接口
+      function selfhostBase() {
+        var ratio = window.innerWidth / window.innerHeight;
+        return (sources.selfhost.url) + (ratio >= 1 ? 'landscape' : 'portrait');
+      }
+      function buildUrl() {
+        var chosen = source;
+        if (source === 'mixed') chosen = Math.random() < 0.5 ? 'dmoe' : 'selfhost';
+        var base = chosen === 'dmoe' ? sources.dmoe.url : selfhostBase();
+        var sep = base.indexOf('?') === -1 ? '?' : '&';
+        return base + sep + 't=' + Date.now() + '&r=' + Math.random().toString(36).slice(2);
+      }
+      function load() {
+        var refreshBtn = $('refreshBgBtn');
+        if (refreshBtn) refreshBtn.classList.add('loading');
+        var img = new Image();
+        var url = buildUrl();
+        img.onload = function () {
+          if (bgImg) bgImg.style.backgroundImage = 'url("' + url + '")';
+          if (refreshBtn) refreshBtn.classList.remove('loading');
+        };
+        img.onerror = function () {
+          if (refreshBtn) refreshBtn.classList.remove('loading'); // 换图失败保留上一张
+        };
+        img.src = url;
+      }
+      function applyLabel() {
+        $('wpSourceLabel').textContent = (sources[source] && sources[source].name) || source;
+        Array.prototype.forEach.call($('wpSourceMenu').children, function (b) {
+          b.classList.toggle('active', b.getAttribute('data-source') === source);
+        });
+      }
+      function buildMenu() {
+        var menu = $('wpSourceMenu');
+        menu.innerHTML = '';
+        Object.keys(sources).forEach(function (key) {
+          if (key === 'default') return;
+          var b = el('button', 'wp-source-option', sources[key].name);
+          b.type = 'button';
+          b.setAttribute('data-source', key);
+          b.addEventListener('click', function (e) {
+            e.stopPropagation();
+            source = key;
+            try { localStorage.setItem('yjh_wp_source', key); } catch (err) {}
+            applyLabel();
+            menu.hidden = true;
+            $('wpSourceBtn').setAttribute('aria-expanded', 'false');
+            load();
+          });
+          menu.appendChild(b);
+        });
+        applyLabel();
+      }
+
+      buildMenu();
+      load();
+      var srcBtn = $('wpSourceBtn');
+      var menu = $('wpSourceMenu');
+      srcBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = menu.hidden;
+        menu.hidden = !open;
+        srcBtn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('click', function () {
+        menu.hidden = true;
+        srcBtn.setAttribute('aria-expanded', 'false');
+      });
+      $('refreshBgBtn').addEventListener('click', load);
     }
 
     /* ---------------- 打字机 ---------------- */
@@ -421,6 +509,7 @@
 
     /* ---------------- 启动 ---------------- */
     applyTheme();
+    initBackground();
     renderSidebar();
     buildEngines();
     startTypewriter();

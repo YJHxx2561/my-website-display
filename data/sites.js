@@ -47,7 +47,15 @@ window.SITE_DATA = {
     "tags": ["前端", "后端", "工具", "面板", "开源", "实用", "效率", "折腾"],
     "accent": "#8be9c8",               // 主强调色
     "accent2": "#7cc7ff",              // 次强调色
-    // 背景：留空则使用内置壁纸 assets/wallpaper/ocean-girl.png（取自原项目）。
+    // 背景模式：api = 随机背景图（默认）；local = 使用下面 background 指定的本地图。
+    "backgroundMode": "api",
+    "wallpaperSources": {              // 随机背景图源（与 desktop-web 项目一致）
+      "dmoe":     { "name": "樱花 DMOE · 二次元", "url": "https://www.dmoe.cc/random.php" },
+      "selfhost": { "name": "自建图库", "url": "https://static-imgapi.web.yjhup.com/api/" },
+      "mixed":    { "name": "两者随机", "url": "" },
+      "default":  "dmoe"               // 默认图源
+    },
+    // 背景：backgroundMode = local 时使用；留空则用内置 assets/wallpaper/ocean-girl.png。
     "background": "",
     "backgroundMobile": "",
     "brightness": 100,
@@ -97,6 +105,17 @@ window.SITE_DATA = {
       "category": "main",
       "tags": ["主页", "关于我"],
       "badge": "主站"
+    },
+    {
+      "id": "desktop-web",
+      "name": "我的桌面",
+      "desc": "个人桌面主页，集成时钟、日历、天气、音乐、搜索与常用站点入口。",
+      "url": "https://desktop-web.web.yjhup.com/",
+      "icon": "🖥️",
+      "image": "assets/screenshots/desktop-web.png",
+      "category": "main",
+      "tags": ["桌面", "导航", "主页"],
+      "badge": ""
     },
     {
       "id": "yjhup-blog",
